@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+/* ─── Custom Font Variables ─── */
+:root {
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+}
+
+/* ─── Scrollbar hide ─────────────────────────────── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ══════════════════════════════════════════════════
+   THEME TOKENS  — applied via data-theme attribute
+   ══════════════════════════════════════════════════ */
+
+/* ── LIGHT (default) ─────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --bg-primary: #F5F7FA;
+  --bg-secondary: #ffffff;
+  --bg-alt: #f3f4f6;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fafb;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --text-subtle: #9ca3af;
+
+  --accent: #f97316;
+  --accent-hover: #ea6c0a;
+  --accent-light: #fff7ed;
+
+  --border: #e5e7eb;
+  --border-subtle: #f3f4f6;
+
+  --nav-bg: #FFFFFF;
+  --nav-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --footer-bg: #111111;
+  --footer-text: #f5f5f5;
+  --footer-muted: #a3a3a3;
+  --footer-border: 1px solid #222222;
+
+  --logo-bg: transparent;
+
+  --hero-overlay: rgba(0, 0, 0, 0.58);
+  --section-alt-bg: #f9fafb;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+
+  --form-bg: #fff9f0;
+  --form-card-bg: #8ecbc8;
+
+  --faq-card-bg: #ffffff;
+  --faq-border: #f3f4f6;
+
+  --stat-card-bg: rgba(0, 0, 0, 0.05);
+
+  --indigo-brand: #1e1b4b;
+  --indigo-text: #312e81;
+}
+
+/* ── DARK — Black + Orange ───────────────────────── */
+[data-theme="dark"] {
+  --bg-primary: #0B0B0B;
+  --bg-secondary: #111111;
+  --bg-alt: #161616;
+  --bg-card: #1a1a1a;
+  --bg-card-hover: #222222;
+
+  --text-primary: #f5f5f5;
+  --text-secondary: #d4d4d4;
+  --text-muted: #a3a3a3;
+  --text-subtle: #525252;
+
+  --accent: #f97316;
+  --accent-hover: #fb923c;
+  --accent-light: #431407;
+
+  --border: #2a2a2a;
+  --border-subtle: #1f1f1f;
+
+  --nav-bg: #111111;
+  --nav-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --footer-bg: #111111;
+  --footer-text: #f5f5f5;
+  --footer-muted: #a3a3a3;
+  --footer-border: 1px solid rgba(255, 255, 255, 0.08);
+
+  --logo-bg: rgba(255, 255, 255, 0.95);
+
+  --hero-overlay: rgba(0, 0, 0, 0.72);
+  --section-alt-bg: #141414;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  --form-bg: #1e1e1e;
+  --form-card-bg: #1f1a14;
+
+  --faq-card-bg: #1a1a1a;
+  --faq-border: #2a2a2a;
+
+  --stat-card-bg: rgba(255, 255, 255, 0.04);
+
+  --indigo-brand: #f97316;
+  --indigo-text: #fb923c;
+}
+
+
+
+/* ══════════════════════════════════════════════════
+   GLOBAL BASE — consume tokens
+   ══════════════════════════════════════════════════ */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-inter);
+}
+
+/* Theme-aware reusable classes */
+.theme-bg {
+  background-color: var(--bg-primary);
+}
+
+.theme-bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.theme-bg-alt {
+  background-color: var(--bg-alt);
+}
+
+.theme-bg-card {
+  background-color: var(--bg-card);
+}
+
+.theme-text {
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+}
+
+.theme-border {
+  border-color: var(--border);
+}
+
+.theme-accent {
+  color: var(--accent);
+}
+
+.theme-accent-bg {
+  background-color: var(--accent);
+}
+
+/* ==========================================================================
+   GLOBAL THEME OVERRIDES
+   Automatically mapping hardcoded Tailwind utility classes to theme variables.
+   ========================================================================== */
+
+html[data-theme="dark"] .bg-white {
+  background-color: var(--bg-card) !important;
+}
+
+html[data-theme="dark"] .bg-neutral-50 {
+  background-color: var(--bg-secondary) !important;
+}
+
+html[data-theme="dark"] .bg-neutral-100 {
+  background-color: var(--bg-alt) !important;
+}
+
+html[data-theme="dark"] .bg-\[\#fdf8f1\] {
+  background-color: var(--bg-secondary) !important;
+}
+
+html[data-theme="dark"] .text-neutral-900,
+html[data-theme="dark"] .text-neutral-800 {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .text-neutral-700 {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] .text-neutral-600,
+html[data-theme="dark"] .text-neutral-500 {
+  color: var(--text-muted) !important;
+}
+
+html[data-theme="dark"] .text-neutral-400 {
+  color: var(--text-subtle) !important;
+}
+
+html[data-theme="dark"] .border-neutral-100,
+html[data-theme="dark"] .border-neutral-200,
+html[data-theme="dark"] .border-black\/5 {
+  border-color: var(--border) !important;
+}
+
+/* ══════════════════════════════════════════════════
+   CUSTOM ANIMATIONS
+   ══════════════════════════════════════════════════ */
+@keyframes gradient-x {
+    0%, 100% {
+        background-position: 0% 50%;
+        background-size: 200% 200%;
+    }
+    50% {
+        background-position: 100% 50%;
+        background-size: 200% 200%;
+    }
+}
+.animate-gradient-x {
+    animation: gradient-x 6s ease infinite;
+    background-size: 200% 200%;
+}

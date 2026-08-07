@@ -19,14 +19,17 @@ import {
 import ApplyModal from "@/components/ui/ApplyModal";
 import { useParams } from "next/navigation";
 
-const JobDetailsPage = () => {
+const JobDetailsPage = ({ initialJob = null, initialError = null }) => {
   const { id } = useParams();
-  const [job, setJob] = useState(null);
-  const [error, setError] = useState(null);
+  const [job, setJob] = useState(initialJob);
+  const [error, setError] = useState(initialError);
   const [modalJobId, setModalJobId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
+    // If we have initial data from server, skip fetch
+    if (initialJob || initialError) return;
+
     const getJobDetails = async () => {
       try {
         setError(null);
@@ -41,7 +44,7 @@ const JobDetailsPage = () => {
     if (id) {
       getJobDetails();
     }
-  }, [id]);
+  }, [id, initialJob, initialError]);
 
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -17,16 +17,19 @@ import {
   BookOpen,
 } from "lucide-react";
 
-export default function BlogPage() {
+export default function BlogPage({ initialData = null }) {
   const { id } = useParams();
   const router = useRouter();
-  const [post, setPost] = useState(null);
-  const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [pastPosts, setPastPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [post, setPost] = useState(initialData ? initialData.post : null);
+  const [featuredPosts, setFeaturedPosts] = useState(initialData ? initialData.featuredPosts : []);
+  const [pastPosts, setPastPosts] = useState(initialData ? initialData.pastPosts : []);
+  const [loading, setLoading] = useState(!initialData);
+  const [error, setError] = useState(initialData ? initialData.error : null);
 
   useEffect(() => {
+    // Skip if we have initialData
+    if (initialData) return;
+
     const fetchBlogData = async () => {
       setLoading(true);
       setError(null);
@@ -56,7 +59,7 @@ export default function BlogPage() {
       fetchBlogData();
       window.scrollTo(0, 0);
     }
-  }, [id]);
+  }, [id, initialData]);
 
   if (loading) {
     return (

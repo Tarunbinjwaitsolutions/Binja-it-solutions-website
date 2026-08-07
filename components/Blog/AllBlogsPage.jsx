@@ -24,16 +24,24 @@ import {
 
 const POSTS_PER_PAGE = 9;
 
-export default function AllBlogsPage() {
-  const [posts, setPosts] = useState([]);
+export default function AllBlogsPage({ initialData = null }) {
+  const [posts, setPosts] = useState(initialData ? initialData.data : []);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(initialData ? initialData.pagination.totalPages : 1);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(null);
 
   const router = useRouter();
 
   useEffect(() => {
+    // If it's page 1 and we have initialData, skip fetch
+    if (currentPage === 1 && initialData) {
+      setPosts(initialData.data);
+      setTotalPages(initialData.pagination.totalPages || 1);
+      setLoading(false);
+      return;
+    }
+
     const getPosts = async () => {
       setLoading(true);
       setError(null);
@@ -49,7 +57,7 @@ export default function AllBlogsPage() {
     };
 
     getPosts();
-  }, [currentPage]);
+  }, [currentPage, initialData]);
 
   const staggerContainer = {
     hidden: { opacity: 0 },

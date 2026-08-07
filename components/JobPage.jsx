@@ -15,32 +15,20 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const JobPage = () => {
+const JobPage = ({ initialJobs = [] }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [jobs, setJobs] = useState(initialJobs);
+  const [filteredJobs, setFilteredJobs] = useState(initialJobs);
   const [jobType, setJobType] = useState("Jobs");
   const [sortOrder, setSortOrder] = useState("Newest");
-  const [availableJobTypes, setAvailableJobTypes] = useState([]);
+  
+  // Initialize job types from initialJobs
+  const initialTypes = Array.isArray(initialJobs) 
+    ? [...new Set(initialJobs.map((job) => job.type))]
+    : [];
+  const [availableJobTypes, setAvailableJobTypes] = useState(initialTypes);
 
-  useEffect(() => {
-    const getJobs = async () => {
-      try {
-        const data = await fetchJobs(1, 100);
-        if (Array.isArray(data)) {
-          setJobs(data);
-          const types = [...new Set(data.map((job) => job.type))];
-          setAvailableJobTypes(types);
-        } else {
-          console.warn("Backend API returned non-array:", data);
-        }
-      } catch (error) {
-        console.warn("Backend API unreachable. Error fetching jobs:", error.message);
-      }
-    };
-
-    getJobs();
-  }, []);
+  // We can remove the fetchJobs useEffect since it's fetched server-side
 
   useEffect(() => {
     let tempJobs = Array.isArray(jobs) ? [...jobs] : [];

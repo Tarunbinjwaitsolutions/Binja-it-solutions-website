@@ -337,6 +337,7 @@ export default function VoiceBotWidget() {
               <Image
                 src={chat12}
                 alt="Voice Chat"
+                priority={true}
                 className="w-24 h-24 object-contain drop-shadow-lg group-hover:scale-110 transition-transform"
               width={800} height={800} />
             </motion.span>

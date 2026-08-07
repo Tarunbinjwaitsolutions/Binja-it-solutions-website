@@ -5,7 +5,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";;
+import { useRouter, useParams } from "next/navigation";
+import { fetchBlogById, fetchLatestBlogs, fetchPreviousBlogs } from "../../lib/api/blogs";
 import {
   Clock,
   Eye,
@@ -30,27 +31,18 @@ export default function BlogPage() {
       setLoading(true);
       setError(null);
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
         // Fetch main post
-        const postResponse = await fetch(`${baseUrl}/api/blogs/${id}`);
-        if (!postResponse.ok) throw new Error(`Failed to fetch main post.`);
-        const postResult = await postResponse.json();
+        const postResult = await fetchBlogById(id);
         setPost(postResult.data);
 
         // Fetch featured posts for sidebar
-        const featuredResponse = await fetch(`${baseUrl}/api/blogs/latest`);
-        if (!featuredResponse.ok)
-          throw new Error(`Failed to fetch featured posts.`);
-        const featuredResult = await featuredResponse.json();
+        const featuredResult = await fetchLatestBlogs();
         // Ensure data is an array before setting state
         const featuredData = featuredResult.data || [];
         setFeaturedPosts(featuredData.filter((p) => p._id !== id));
 
         // Fetch previous posts for grid
-        const pastResponse = await fetch(`${baseUrl}/api/blogs/previous/${id}`);
-        if (!pastResponse.ok) throw new Error(`Failed to fetch past posts.`);
-        const pastResult = await pastResponse.json();
+        const pastResult = await fetchPreviousBlogs(id);
         // Ensure data is an array before setting state
         setPastPosts(pastResult.data || []);
       } catch (err) {

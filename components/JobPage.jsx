@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 import { motion } from "framer-motion";
+import { fetchJobs } from "../lib/api/jobs";
 import Link from "next/link";;
 import {
   Search,
@@ -23,12 +24,9 @@ const JobPage = () => {
   const [availableJobTypes, setAvailableJobTypes] = useState([]);
 
   useEffect(() => {
-    const fetchJobs = async () => {
+    const getJobs = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "/hrms-proxy";
-        const fetchUrl = `${baseUrl}/api/openings`;
-        const response = await fetch(fetchUrl);
-        const data = await response.json();
+        const data = await fetchJobs(1, 100);
         if (Array.isArray(data)) {
           setJobs(data);
           const types = [...new Set(data.map((job) => job.type))];
@@ -41,7 +39,7 @@ const JobPage = () => {
       }
     };
 
-    fetchJobs();
+    getJobs();
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 
-import { useRouter } from "next/navigation";;
+import { useRouter } from "next/navigation";
+import { fetchJobDetails } from "../lib/api/jobs";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -26,16 +27,10 @@ const JobDetailsPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchJobDetails = async () => {
+    const getJobDetails = async () => {
       try {
         setError(null);
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/openings/${id}`,
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch job details: ${response.statusText}`);
-        }
-        const data = await response.json();
+        const data = await fetchJobDetails(id);
         setJob(data);
       } catch (error) {
         console.error("Error fetching job details:", error);
@@ -44,7 +39,7 @@ const JobDetailsPage = () => {
     };
 
     if (id) {
-      fetchJobDetails();
+      getJobDetails();
     }
   }, [id]);
 

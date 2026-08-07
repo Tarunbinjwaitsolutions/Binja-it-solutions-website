@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* â”€â”€â”€ Scrollbar hide â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   THEME TOKENS  â€” applied via data-theme attribute
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+:root {
+  --bg-primary: #F5F7FA;
+  --bg-secondary: #ffffff;
+  --bg-alt: #f3f4f6;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f9fafb;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --text-subtle: #9ca3af;
+
+  --accent: #f97316;
+  --accent-hover: #ea6c0a;
+  --accent-light: #fff7ed;
+
+  --border: #e5e7eb;
+  --border-subtle: #f3f4f6;
+
+  --nav-bg: #FFFFFF;
+  --nav-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --footer-bg: #111111;
+  --footer-text: #f5f5f5;
+  --footer-muted: #a3a3a3;
+  --footer-border: 1px solid #222222;
+
+  --logo-bg: transparent;
+
+  --hero-overlay: rgba(0, 0, 0, 0.58);
+  --section-alt-bg: #f9fafb;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+
+  --form-bg: #fff9f0;
+  --form-card-bg: #8ecbc8;
+
+  --faq-card-bg: #ffffff;
+  --faq-border: #f3f4f6;
+
+  --stat-card-bg: rgba(0, 0, 0, 0.05);
+
+  --indigo-brand: #1e1b4b;
+  --indigo-text: #312e81;
+}
+
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   GLOBAL BASE â€” consume tokens
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-aware reusable classes */
+.theme-bg {
+  background-color: var(--bg-primary);
+}
+
+.theme-bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.theme-bg-alt {
+  background-color: var(--bg-alt);
+}
+
+.theme-bg-card {
+  background-color: var(--bg-card);
+}
+
+.theme-text {
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+}
+
+.theme-border {
+  border-color: var(--border);
+}
+
+.theme-accent {
+  color: var(--accent);
+}
+
+.theme-accent-bg {
+  background-color: var(--accent);
+}
+
+/* ==========================================================================
+   GLOBAL THEME OVERRIDES
+   Automatically mapping hardcoded Tailwind utility classes to theme variables.
+   ========================================================================== */
+
+
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   CUSTOM ANIMATIONS
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+@keyframes gradient-x {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+    background-size: 200% 200%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+    background-size: 200% 200%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 6s ease infinite;
+  background-size: 200% 200%;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+
+@layer components {
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+    50% {
+      transform: translateY(-15px);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .animate-float {
+    animation: float 3.5s ease-in-out infinite;
+  }
+
+  .service-card {
+    @apply transition-all duration-300 ease-in-out;
+    will-change: transform;
+  }
+
+  .service-card:hover {
+    @apply -translate-y-[18px] shadow-2xl;
+    animation-play-state: paused;
+    will-change: auto;
+  }
+}

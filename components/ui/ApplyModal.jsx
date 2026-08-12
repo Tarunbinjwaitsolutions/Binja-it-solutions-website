@@ -97,9 +97,10 @@ const ApplyModal = ({ jobId, onClose }) => {
         onClick={onClose}
       >
         <motion.div
-          className="rounded-lg shadow-xl p-8 w-full max-w-lg m-4 relative overflow-hidden transition-colors duration-300" style={{ backgroundColor: "var(--bg-primary)" }}
+          className="rounded-lg shadow-xl p-8 w-full max-w-lg m-4 relative overflow-y-auto max-h-[90vh] transition-colors duration-300" style={{ backgroundColor: "var(--bg-primary)" }}
           variants={modalVariants}
           onClick={(e) => e.stopPropagation()}
+          data-lenis-prevent
         >
           <AnimatePresence>
             {showSuccessDialog && (

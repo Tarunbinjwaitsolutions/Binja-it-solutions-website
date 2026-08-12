@@ -33,6 +33,7 @@ export default function Hero({ data }) {
         )}
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent z-10"></div>
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/90 via-black/50 to-transparent z-10"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-20">
         {/* Breadcrumbs */}

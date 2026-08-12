@@ -25,7 +25,8 @@ export async function generateMetadata({ params }) {
 
 export default async function CategoryPage({ params }) {
   const { service: serviceSlug } = await params;
-  const category = servicesData.find((s) => s.slug === serviceSlug);
+  const lowerServiceSlug = serviceSlug.toLowerCase();
+  const category = servicesData.find((s) => s.slug.toLowerCase() === lowerServiceSlug);
 
   if (!category) {
     notFound();

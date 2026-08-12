@@ -9,7 +9,7 @@ const heroData = {
   headline: "Build, Automate & Grow Your Business with Smart IT Solutions",
   paragraph:
     "From AI-powered tools to modern websites and business software, we create solutions that save time, improve efficiency, and help your business scale.",
-  videoSrc: "/Hero-Video.mp4",
+  videoSrc: "/mainVideo.mp4",
 };
 
 const Hero = () => {
@@ -36,7 +36,7 @@ const Hero = () => {
         animate="visible"
         variants={staggerContainer}
       >
-        <motion.h1
+        {/* <motion.h1
           variants={fadeInUp}
           className="text-3xl md:text-5xl lg:text-6xl w-[95%] lg:w-[85%] font-serif font-bold my-4 leading-tight bg-gradient-to-r from-white via-blue-100 to-gray-400 bg-clip-text text-transparent"
         >
@@ -60,13 +60,13 @@ const Hero = () => {
               {index !== arr.length - 1 && " "}
             </React.Fragment>
           ))}
-        </motion.h1>
-        <motion.p
+        </motion.h1> */}
+        {/* <motion.p
           variants={fadeInUp}
           className="max-w-xl text-md md:text-lg text-neutral-200 mb-8"
         >
           {heroData.paragraph}
-        </motion.p>
+        </motion.p> */}
 
         {/* CTAs */}
         {/* <motion.div variants={fadeInUp} className="flex gap-4 mb-8">

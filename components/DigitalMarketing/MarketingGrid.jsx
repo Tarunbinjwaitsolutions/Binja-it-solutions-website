@@ -3,6 +3,7 @@
 import React from "react";
 import { Search, Share2, Palette, Users, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSmoothScroll } from "@/components/providers/SmoothScrollProvider";
 
 const marketingCategories = [
   {
@@ -56,9 +57,17 @@ const marketingCategories = [
 ];
 
 export function MarketingGrid() {
+  const lenis = useSmoothScroll();
+
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (element) {
+      if (lenis) {
+        lenis.scrollTo(element, { offset: -100 });
+      } else {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
   };
 
   return (

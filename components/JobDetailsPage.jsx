@@ -74,7 +74,7 @@ const JobDetailsPage = ({ initialJob = null, initialError = null }) => {
       <div className="min-h-screen bg-transparent flex flex-col items-center justify-center pt-24" style={{ backgroundColor: "var(--bg-secondary)" }}>
         <p className="text-xl text-red-500 font-semibold mb-4">{error}</p>
         <button
-          onClick={() => router.push(-1)}
+          onClick={() => router.back()}
           className="flex items-center text-neutral-500 hover:text-orange-600 transition-colors duration-300 group"
         >
           <ArrowLeft
@@ -105,7 +105,7 @@ const JobDetailsPage = ({ initialJob = null, initialError = null }) => {
           className="mb-8"
         >
           <button
-            onClick={() => router.push(-1)}
+            onClick={() => router.back()}
             className="flex items-center text-neutral-500 hover:text-orange-600 transition-colors duration-300 group"
           >
             <ArrowLeft

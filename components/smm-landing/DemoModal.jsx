@@ -60,7 +60,7 @@ export function DemoModal({ isOpen, onClose }) {
               </div>
 
               {/* Form */}
-              <div className="p-6 overflow-y-auto">
+              <div className="p-6 overflow-y-auto" data-lenis-prevent>
                 <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-1.5">Name</label>

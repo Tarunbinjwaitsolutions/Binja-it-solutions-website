@@ -54,7 +54,7 @@ const ContactPage = () => {
                     301, Atulya IT park, Indore, Madhya Pradesh, India
                   </span>
                 </div>
-                <div className="flex items-center gap-4 group">
+                <div className="flex items-center mt-5 gap-4 group">
                   <div className="bg-orange-400 p-3 rounded-lg shadow-md group-hover:bg-orange-500 transition-colors">
                     <MapPin size={24} className="text-white" />
                   </div>

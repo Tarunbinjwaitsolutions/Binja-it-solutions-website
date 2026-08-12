@@ -58,11 +58,31 @@ const Footer = () => {
     ];
 
     const socialLinks = [
-        { icon: FaLinkedin, href: "https://www.linkedin.com/company/binjwa-it-solutions-pvt-ltd/posts/?feedView=all" },
-        { icon: FaInstagram, href: "https://www.instagram.com/binjwaitsolutions/" },
-        { icon: FaXTwitter, href: "https://x.com/BinjwaITSolutio?t=RiZkuNAkfF1y2zY6hdegtQ&s=08" },
-        { icon: FaFacebookF, href: "https://www.facebook.com/people/Binjwaitsolutions/61577198437265/" },
-        { icon: Youtube, href: "https://www.youtube.com/@BinjwaITCompleteSolutions" },
+        { 
+            icon: FaLinkedin, 
+            href: "https://www.linkedin.com/company/binjwa-it-solutions-pvt-ltd/posts/?feedView=all",
+            hoverClass: "hover:!bg-[#0A66C2] active:!bg-[#0A66C2] hover:!border-[#0A66C2] active:!border-[#0A66C2] hover:shadow-[0_0_20px_rgba(10,102,194,0.4)]"
+        },
+        { 
+            icon: FaInstagram, 
+            href: "https://www.instagram.com/binjwaitsolutions/",
+            hoverClass: "hover:![background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)] active:![background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)] hover:!border-transparent active:!border-transparent hover:shadow-[0_0_20px_rgba(220,39,67,0.4)]"
+        },
+        { 
+            icon: FaXTwitter, 
+            href: "https://x.com/BinjwaITSolutio?t=RiZkuNAkfF1y2zY6hdegtQ&s=08",
+            hoverClass: "hover:!bg-[#000000] active:!bg-[#000000] hover:!border-[#000000] active:!border-[#000000] hover:shadow-[0_0_20px_rgba(0,0,0,0.4)]"
+        },
+        { 
+            icon: FaFacebookF, 
+            href: "https://www.facebook.com/people/Binjwaitsolutions/61577198437265/",
+            hoverClass: "hover:!bg-[#1877F2] active:!bg-[#1877F2] hover:!border-[#1877F2] active:!border-[#1877F2] hover:shadow-[0_0_20px_rgba(24,119,242,0.4)]"
+        },
+        { 
+            icon: Youtube, 
+            href: "https://www.youtube.com/@BinjwaITCompleteSolutions",
+            hoverClass: "hover:!bg-[#FF0000] active:!bg-[#FF0000] hover:!border-[#FF0000] active:!border-[#FF0000] hover:shadow-[0_0_20px_rgba(255,0,0,0.4)]"
+        },
     ];
 
     return (
@@ -80,7 +100,7 @@ const Footer = () => {
                     {/* Company Info */}
                     <motion.div variants={fadeInUp} className="flex flex-col space-y-4 lg:w-[280px] xl:w-[320px]">
                         <Link href="/" className="flex items-center gap-2 shrink-0 cursor-pointer rounded-2xl px-2 w-fit transition-colors hover:scale-105 duration-300" style={{ backgroundColor: "var(--logo-bg)" }}>
-                            <Image src="/logo.png" alt="Binjwa IT Solutions" width={200} height={64} className="h-16 w-auto object-contain" style={{ width: 'auto', height: 'auto' }} />
+                            <Image src="/logo.png" alt="Binjwa IT Solutions" width={150} height={64} className="h-16 w-auto object-contain" style={{ width: 'auto', height: 'auto' }} />
                         </Link>
                         <p className="text-xs leading-relaxed" style={{ color: "var(--footer-text)" }}>
                             Transforming businesses through AI-powered automation, custom software development, web solutions, and digital innovation. We help startups, SMEs, and enterprises streamline operations, improve customer experiences, and accelerate growth.
@@ -194,10 +214,10 @@ const Footer = () => {
                                             href={social.href}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="group w-11 h-11 rounded-2xl border flex items-center justify-center transition-all duration-300 hover:!bg-orange-500 hover:!border-orange-500 hover:scale-110 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
+                                            className={`group w-11 h-11 rounded-2xl border flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-110 ${social.hoverClass}`}
                                             style={{ backgroundColor: "var(--bg-card)", borderColor: "var(--border)" }}
                                         >
-                                            <social.icon className="group-hover:!text-white transition-colors duration-300" style={{ color: "var(--text-muted)" }} size={20} />
+                                            <social.icon className="group-hover:!text-white group-active:!text-white transition-colors duration-300" style={{ color: "var(--text-muted)" }} size={20} />
                                         </a>
                                     ))}
                                 </div>

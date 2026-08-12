@@ -5,8 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/dev-with-ip.js",
-    "dev:fullstack": "concurrently \"npm run dev\" \"npm run server\"",
-    "server": "node api/index.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,11 +12,10 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/vite": "^4.1.18",
-    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
     "framer-motion": "^12.27.0",
     "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
     "lucide-react": "^0.562.0",
     "motion": "^12.38.0",
     "next": "^16.2.12",
@@ -38,7 +35,6 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
-    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

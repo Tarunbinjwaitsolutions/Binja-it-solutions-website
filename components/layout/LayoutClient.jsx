@@ -23,8 +23,17 @@ const bannerImages = {
 const bannerImageUrl = "/assets/banner/default.jpg"; // Placeholder, adjust if needed
 const hasBanner = false; // Adjust based on actual files
 
-
-
+/**
+ * LayoutClient acts as the primary global wrapper for the application.
+ * It injects and renders the following elements globally across all pages:
+ * - A Framer Motion scroll progress bar (top)
+ * - The dynamic Banner component (conditionally rendered)
+ * - react-hot-toast Toaster for global notifications
+ * - The main Navbar component
+ * - The Page content (`children`)
+ * - The global Footer component
+ * - Lazy-loaded AI VoiceBot and Chatbot widgets anchored to the bottom right
+ */
 export default function LayoutClient({ children }) {
   const [showBanner, setShowBanner] = useState(false);
   const { scrollYProgress } = useScroll();

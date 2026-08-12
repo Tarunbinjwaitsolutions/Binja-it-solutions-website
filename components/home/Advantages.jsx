@@ -25,10 +25,10 @@ const Advantages = () => {
         <section className="relative py-20 px-6 md:px-12 lg:px-20 overflow-hidden min-h-screen flex flex-col justify-center">
             {/* Background Image with Next.js Image optimization */}
             <div className="absolute inset-0 z-0">
-                <Image 
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" 
-                    alt="Team Collaboration Background" 
-                    fill 
+                <Image
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
+                    alt="Team Collaboration Background"
+                    fill
                     className="object-cover"
                     priority
                 />
@@ -38,11 +38,11 @@ const Advantages = () => {
 
             <div className="relative z-10 max-w-7xl mx-auto w-full">
                 {/* Section Heading Area */}
-                <motion.div 
-                    initial={{ opacity: 0, y: -20 }} 
-                    whileInView={{ opacity: 1, y: 0 }} 
-                    viewport={{ once: true }} 
-                    transition={{ duration: 0.6 }} 
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
                     className="mb-16 md:mb-24 max-w-3xl"
                 >
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
@@ -54,11 +54,11 @@ const Advantages = () => {
                 </motion.div>
 
                 {/* Glassmorphism Cards Grid */}
-                <motion.div 
-                    variants={staggerContainer} 
-                    initial="hidden" 
-                    whileInView="visible" 
-                    viewport={{ once: true, amount: 0.1 }} 
+                <motion.div
+                    variants={staggerContainer}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.1 }}
                     className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto"
                 >
                     {advantageData.items.map((item, index) => (
@@ -67,8 +67,8 @@ const Advantages = () => {
                             variants={fadeInUp}
                             className={`flex flex-col justify-center text-center p-8 md:p-10 rounded-3xl transition-all duration-300
                                         bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl
-                                        hover:bg-white/15 hover:border-white/30 hover:-translate-y-2
-                                        ${index % 2 !== 0 ? 'md:mt-12' : ''}`}
+                                      hover:-translate-y-2
+                                        `}
                         >
                             <p className="text-lg md:text-xl font-serif italic text-white/95 leading-relaxed mb-6">
                                 "{item.description}"

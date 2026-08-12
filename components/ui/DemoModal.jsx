@@ -27,8 +27,9 @@ const DemoModal = ({ isOpen, onClose, productName }) => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.4, type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden transition-colors duration-300"
+          className="relative w-full max-w-lg rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh] transition-colors duration-300"
           style={{ backgroundColor: "var(--form-card-bg)" }}
+          data-lenis-prevent
         >
           {/* Subtle Grid Pattern Overlay */}
           <div

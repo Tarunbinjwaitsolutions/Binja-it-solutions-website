@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, UploadCloud, FileText, CheckCircle } from "lucide-react";
 
+import { applyForJob } from "../../lib/api/jobs";
+
 const ApplyModal = ({ jobId, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -60,20 +62,7 @@ const ApplyModal = ({ jobId, onClose }) => {
     }
 
     try {
-      // Replace with your actual API endpoint for submitting applications
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/applicants/${jobId}/apply`,
-        {
-          method: "POST",
-          body: submissionData,
-        },
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Something went wrong.");
-      }
-
+      await applyForJob(jobId, submissionData);
       setShowSuccessDialog(true);
     } catch (err) {
       setError(err.message);
@@ -108,9 +97,10 @@ const ApplyModal = ({ jobId, onClose }) => {
         onClick={onClose}
       >
         <motion.div
-          className="rounded-lg shadow-xl p-8 w-full max-w-lg m-4 relative overflow-hidden transition-colors duration-300" style={{ backgroundColor: "var(--bg-primary)" }}
+          className="rounded-lg shadow-xl p-8 w-full max-w-lg m-4 relative overflow-y-auto max-h-[90vh] transition-colors duration-300" style={{ backgroundColor: "var(--bg-primary)" }}
           variants={modalVariants}
           onClick={(e) => e.stopPropagation()}
+          data-lenis-prevent
         >
           <AnimatePresence>
             {showSuccessDialog && (

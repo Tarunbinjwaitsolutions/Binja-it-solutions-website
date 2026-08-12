@@ -46,7 +46,11 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
             name: "Services",
             isMega: true,
             isServicesMega: true,
-            subLinks: servicesData.map(service => ({ name: service.name, href: `/services/${service.slug}` })),
+            subLinks: servicesData.map(service => ({
+                name: service.name,
+                href: `/services/${service.slug}`,
+                subServices: service.subServices
+            })),
         },
         {
             name: "Industries",
@@ -73,7 +77,8 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
     }, [pathname]);
 
     const NavLink = ({ link }) => {
-        const isActive = pathname === link.href || (link.subLinks && link.subLinks.some(s => s.href === pathname));
+        const isActive = pathname === link.href ||
+            (link.subLinks && link.subLinks.some(s => pathname === s.href || pathname.startsWith(s.href + "/")));
         const isThisMegaMenuShowing = link.isServicesMega ? showMegaMenu : (link.isIndustriesMega ? showIndustriesMegaMenu : false);
 
         return (
@@ -120,8 +125,23 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
             <div className="w-screen px-4 sm:px-6 lg:px-28">
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 shrink-0 cursor-pointer rounded-xl px-2 transition-colors" style={{ backgroundColor: "var(--logo-bg)" }}>
-                        <Image src="/logo.png" alt="Binjwa IT Solutions" width={100} height={150} priority className="h-16 w-auto" style={{ width: 'auto', height: 'auto' }} />
+                    <Link href="/">
+                        <motion.div
+                            className="flex items-center justify-center shrink-0 cursor-pointer rounded-xl transition-all"
+                            animate={{
+                                backgroundColor: useWhiteText ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0)",
+                                padding: useWhiteText ? "0.5rem 1rem" : "0.25rem 0.5rem",
+                                boxShadow: useWhiteText ? "0px 0px 15px rgba(251,146,60,0.4)" : "none",
+                                borderColor: useWhiteText ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0)",
+                                borderWidth: "1px",
+                                borderStyle: "solid"
+                            }}
+                            whileHover={{ scale: 1.05, boxShadow: useWhiteText ? "0px 0px 25px rgba(251,146,60,0.8)" : "none" }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Image src="/logo.png" alt="Binjwa IT Solutions" width={160} height={60} priority className="h-10 md:h-12 w-auto object-contain drop-shadow-md" />
+                        </motion.div>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -256,7 +276,8 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="md:hidden border-t shadow-2xl backdrop-blur-xl"
+                        className="md:hidden border-t shadow-2xl backdrop-blur-xl overflow-y-auto max-h-[calc(100vh-80px)]"
+                        data-lenis-prevent
                         style={{
                             backgroundColor: isSmmPage ? "rgba(17, 17, 17, 0.95)" : "rgba(245, 247, 250, 0.95)",
                             borderColor: isSmmPage ? "#333" : "var(--border)",
@@ -287,14 +308,29 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
                                                 >
                                                     <div className="pt-2 pb-2 pl-6 pr-4 flex flex-col space-y-1">
                                                         {link.subLinks.map((subLink) => (
-                                                            <Link key={subLink.name}
-                                                                href={subLink.href}
-                                                                onClick={() => setIsOpen(false)}
-                                                                className="block py-2.5 px-4 rounded-md text-base font-medium hover:text-orange-500 transition-all hover:bg-orange-50/5 hover:pl-6"
-                                                                style={{ color: isSmmPage ? "#a3a3a3" : "var(--text-muted)" }}
-                                                            >
-                                                                {subLink.name}
-                                                            </Link>
+                                                            <div key={subLink.name} className="flex flex-col mb-1">
+                                                                <Link
+                                                                    href={subLink.href}
+                                                                    onClick={() => setIsOpen(false)}
+                                                                    className="block py-2 px-4 rounded-md text-base font-semibold text-orange-500 hover:bg-orange-50/5 transition-all"
+                                                                >
+                                                                    {subLink.name}
+                                                                </Link>
+                                                                {subLink.subServices && (
+                                                                    <div className="pl-4 flex flex-col space-y-1 border-l-2 border-orange-500/20 ml-6 my-1">
+                                                                        {subLink.subServices.map((sub) => (
+                                                                            <Link key={sub.slug}
+                                                                                href={`${subLink.href}/${sub.slug}`}
+                                                                                onClick={() => setIsOpen(false)}
+                                                                                className="block py-1.5 px-3 rounded-md text-sm font-medium hover:text-orange-500 hover:bg-orange-50/5 transition-all"
+                                                                                style={{ color: isSmmPage ? "#a3a3a3" : "var(--text-muted)" }}
+                                                                            >
+                                                                                {sub.name}
+                                                                            </Link>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                         ))}
                                                     </div>
                                                 </motion.div>

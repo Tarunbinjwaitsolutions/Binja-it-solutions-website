@@ -21,9 +21,9 @@ export default function VoiceBotWidget() {
   const [messages, setMessages] = useState([]);
   const [hint, setHint] = useState("Hold button to speak or type below");
   const [inputText, setInputText] = useState("");
-  
+
   const [isSpeechSupported, setIsSpeechSupported] = useState(true);
-  
+
   const recognitionRef = useRef(null);
   const messagesEndRef = useRef(null);
   const hasOpenedRef = useRef(false);
@@ -60,11 +60,11 @@ export default function VoiceBotWidget() {
             interimTranscript += event.results[i][0].transcript;
           }
         }
-        
+
         if (finalTranscript) {
           sendMessage(finalTranscript);
         } else if (interimTranscript) {
-           setHint(`Heard: "${interimTranscript}"`);
+          setHint(`Heard: "${interimTranscript}"`);
         }
       };
 
@@ -76,15 +76,15 @@ export default function VoiceBotWidget() {
           setHint(`⚠️ Audio error: ${event.error}`);
         }
         setTimeout(() => {
-           setStatus("idle");
-           setHint("Hold button to speak or type below");
+          setStatus("idle");
+          setHint("Hold button to speak or type below");
         }, 3000);
       };
 
       recognition.onend = () => {
         if (status === "listening") {
-            setStatus("idle");
-            setHint("Hold button to speak or type below");
+          setStatus("idle");
+          setHint("Hold button to speak or type below");
         }
       };
 
@@ -101,7 +101,7 @@ export default function VoiceBotWidget() {
 
   async function sendMessage(text) {
     if (!text.trim()) return;
-    
+
     setMessages((prev) => [...prev, { role: "user", text }]);
     setStatus("processing");
     setHint("Processing...");
@@ -112,11 +112,11 @@ export default function VoiceBotWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text }),
       });
-      
+
       if (!res.ok) {
-         throw new Error(`Server returned ${res.status}`);
+        throw new Error(`Server returned ${res.status}`);
       }
-      
+
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "ai", text: data.response }]);
       setStatus("idle");
@@ -143,22 +143,22 @@ export default function VoiceBotWidget() {
     if (!isSpeechSupported || status === "processing" || status === "listening") return;
     try {
       recognitionRef.current?.start();
-    } catch (err) {}
+    } catch (err) { }
   }
 
   function stopRecording() {
     if (status !== "listening") return;
     try {
       recognitionRef.current?.stop();
-    } catch (err) {}
+    } catch (err) { }
   }
 
   function clearHistory() {
     setMessages([]);
     hasOpenedRef.current = false;
     if (isOpen) {
-       hasOpenedRef.current = true;
-       setMessages([{ role: "ai", text: "Hello! How can I help you today?" }]);
+      hasOpenedRef.current = true;
+      setMessages([{ role: "ai", text: "Hello! How can I help you today?" }]);
     }
   }
 
@@ -232,11 +232,10 @@ export default function VoiceBotWidget() {
                     </div>
                   )}
                   <div
-                    className={`max-w-[78%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                      m.role === "user"
+                    className={`max-w-[78%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${m.role === "user"
                         ? "bg-[#010032] text-white rounded-br-sm"
                         : "shadow-sm rounded-bl-sm border"
-                    }`}
+                      }`}
                     style={m.role === "user" ? {} : { backgroundColor: "var(--bg-card)", color: "var(--text-primary)", borderColor: "var(--border)" }}
                   >
                     {m.text}
@@ -279,13 +278,12 @@ export default function VoiceBotWidget() {
                   onTouchEnd={(e) => { e.preventDefault(); stopRecording(); }}
                   onContextMenu={(e) => e.preventDefault()}
                   disabled={status === "processing" || !isSpeechSupported}
-                  className={`relative z-10 w-14 h-14 shrink-0 rounded-full flex items-center justify-center transition-all duration-200 select-none ${
-                    status === "listening"
+                  className={`relative z-10 w-14 h-14 shrink-0 rounded-full flex items-center justify-center transition-all duration-200 select-none ${status === "listening"
                       ? "bg-orange-500 shadow-[0_0_20px_rgba(239,68,68,0.6)] scale-110"
                       : status === "processing" || !isSpeechSupported
                         ? "bg-amber-500 opacity-50 cursor-not-allowed"
                         : "bg-[#6c63ff] hover:bg-[#5a52d5] hover:scale-105 shadow-lg"
-                  }`}
+                    }`}
                   aria-label="Hold to speak"
                 >
                   <Mic size={24} className="text-white pointer-events-none" />
@@ -305,11 +303,11 @@ export default function VoiceBotWidget() {
           isOpen
             ? {}
             : {
-                repeat: Infinity,
-                duration: 3,
-                ease: "easeInOut",
-                repeatDelay: 1,
-              }
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+              repeatDelay: 1,
+            }
         }
         className="relative flex items-center justify-center group"
         aria-label={isOpen ? "Close voice assistant" : "Open voice assistant"}
@@ -337,8 +335,9 @@ export default function VoiceBotWidget() {
               <Image
                 src={chat12}
                 alt="Voice Chat"
+                priority={true}
                 className="w-24 h-24 object-contain drop-shadow-lg group-hover:scale-110 transition-transform"
-              width={800} height={800} />
+                width={800} height={800} />
             </motion.span>
           )}
         </AnimatePresence>

@@ -18,7 +18,7 @@ const ProductCard = ({ name, description, features, detailsLink, image, onTryDem
     >
       {image && (
         <div className="h-64 w-full overflow-hidden theme-bg-secondary relative">
-          <Image src={image} alt={name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-110" />
+          <Image src={image} alt={name} fill sizes="(max-width: 768px) 100vw, 50vw" priority className="object-cover transition-transform duration-700 group-hover:scale-110" />
         </div>
       )}
       

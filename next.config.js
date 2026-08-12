@@ -11,10 +11,10 @@ const __dirname = path.dirname(__filename);
 
 function getLocalIPv4Addresses() {
   if (process.env.NODE_ENV !== 'development') return undefined;
-  
+
   const interfaces = os.networkInterfaces();
   const addresses = ['localhost'];
-  
+
   for (const name of Object.keys(interfaces)) {
     for (const iface of interfaces[name]) {
       if (iface.family === 'IPv4' && !iface.internal) {
@@ -46,6 +46,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        // Proxies requests to a Python Flask API backend (handles AI chat, OpenRouter, MongoDB)
         source: '/chatbot-proxy/:path*',
         destination: `${process.env.LOCAL_CHATBOT_URL || 'https://chatbot-latest-b683.onrender.com'}/:path*`
       },

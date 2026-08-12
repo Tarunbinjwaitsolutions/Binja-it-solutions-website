@@ -7,6 +7,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PhoneCall, Bot, MessageSquare, Globe, ArrowRight } from 'lucide-react';
 import Magnetic from '@/components/ui/Magnetic';
+import { useSmoothScroll } from '@/components/providers/SmoothScrollProvider';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,6 +45,7 @@ const HERO_SLIDES = [
 
 function HeroSection() {
   const router = useRouter();
+  const lenis = useSmoothScroll();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const canvasRef = useRef(null);
@@ -149,7 +151,8 @@ function HeroSection() {
   const go = (id) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      if (lenis) lenis.scrollTo(el, { offset: -100 });
+      else el.scrollIntoView({ behavior: 'smooth' });
     } else {
       router.push('/#' + id);
     }

@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Globe, Smartphone, Database, Cloud, ChevronRight } from "lucide-react";
+import { useSmoothScroll } from "@/components/providers/SmoothScrollProvider";
 
 const serviceCategories = [
   {
@@ -61,11 +62,14 @@ const serviceCategories = [
 ];
 
 export default function TechnicalGrid() {
+  const lenis = useSmoothScroll();
+
   const handleScroll = (e, id) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (lenis) lenis.scrollTo(element, { offset: -100 });
+      else element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 

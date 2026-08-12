@@ -25,12 +25,11 @@ const FAQCard = ({ question, answer, isOpen, onClick }) => {
       layout
       animate={{ scale: isOpen ? 1.01 : 1 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`mb-4 overflow-hidden rounded-2xl border transition-all duration-300 bg-white ${
-        isOpen ? "shadow-md border-orange-500" : "shadow-sm border-gray-200 hover:border-orange-500/50 hover:shadow-md"
-      }`}
+      className={`mb-4 overflow-hidden rounded-2xl border transition-all duration-300 bg-white ${isOpen ? "shadow-md border-orange-500" : "shadow-sm border-gray-200 hover:border-orange-500/50 hover:shadow-md"
+        }`}
     >
       <button className="flex w-full items-center justify-between p-6 text-left focus:outline-none group" onClick={onClick}>
-        <h3 className={`text-lg md:text-xl font-bold transition-colors duration-300 group-hover:text-orange-500 ${isOpen ? "text-orange-500" : "text-gray-900"}`}>
+        <h3 className={`text-lg md:text-xl font-bold transition-colors duration-300 `}>
           {question}
         </h3>
         <div className={`shrink-0 ml-4 transition-transform duration-300 group-hover:text-orange-500 ${isOpen ? "text-orange-500 rotate-180" : "text-gray-400 rotate-0"}`}>
@@ -41,7 +40,7 @@ const FAQCard = ({ question, answer, isOpen, onClick }) => {
       <AnimatePresence>
         {isOpen && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: "easeInOut" }}>
-            <div className="px-6 pb-6 text-base leading-relaxed border-t pt-4 text-gray-600 border-gray-100">
+            <div className="px-6 pb-6 text-base leading-relaxed border-t pt-4 text-gray-                    500 border-gray-100">
               {answer}
             </div>
           </motion.div>
@@ -58,13 +57,13 @@ const FAQSection = () => {
     <section className="py-24 px-6 lg:px-20 transition-colors duration-300 bg-gray-50">
       <div className="mx-auto max-w-4xl">
         {/* Centered Heading */}
-        <motion.div 
-          initial="hidden" 
-          whileInView="visible" 
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
           variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            hidden: { opacity: 0, y: 20 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
           }}
           className="text-center mb-16"
         >
@@ -73,9 +72,9 @@ const FAQSection = () => {
           </h2>
           <div className="w-24 h-1.5 mx-auto bg-orange-500 rounded-full" />
         </motion.div>
-        
+
         {/* FAQ Items Stack */}
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"

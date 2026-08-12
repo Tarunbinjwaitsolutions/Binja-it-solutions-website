@@ -81,7 +81,7 @@ const FeatureCard = ({ feature, isEven, index }) => {
         hidden: { opacity: 0, x: isEven ? 40 : -40, y: 20 },
         visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.7, ease: "easeOut" } }
     };
-    
+
     const rightContentVariants = {
         hidden: { opacity: 0, x: isEven ? -40 : 40, y: 20 },
         visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.7, ease: "easeOut", delay: 0.1 } }
@@ -101,10 +101,10 @@ const FeatureCard = ({ feature, isEven, index }) => {
                     <div className="relative w-full aspect-[4/5] bg-gray-50 rounded-[3rem] p-3 shadow-2xl border-[4px] border-gray-200 flex items-center justify-center overflow-hidden">
                         {/* Screen Content */}
                         <div className="relative w-full h-full rounded-[2.2rem] overflow-hidden bg-gray-900">
-                            <Image 
-                                src={feature.image} 
-                                alt={feature.title} 
-                                fill 
+                            <Image
+                                src={feature.image}
+                                alt={feature.title}
+                                fill
                                 className="object-cover"
                                 sizes="(max-width: 640px) 320px, 400px"
                                 priority={index <= 1}
@@ -122,21 +122,21 @@ const FeatureCard = ({ feature, isEven, index }) => {
                 <div className={`px-4 py-1.5 rounded-md text-sm font-semibold text-white mb-6 shadow-sm ${feature.badgeColor}`}>
                     {feature.label}
                 </div>
-                
+
                 {/* Heading */}
                 <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-[1.15] text-gray-900">
                     {feature.title}
                 </h3>
-                
+
                 {/* Description Paragraph */}
                 <p className="text-lg mb-10 leading-relaxed max-w-lg text-gray-600">
                     {feature.points[0]}
                 </p>
-                
+
                 {/* Explore Button */}
-                <button className="flex items-center gap-2 px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-medium transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                {/* <button className="flex items-center gap-2 px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-medium transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
                     Explore More <ArrowRight size={18} />
-                </button>
+                </button> */}
             </motion.div>
         </motion.div>
     );
@@ -154,15 +154,15 @@ const WhyChooseUsStack = () => {
 
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Section Header */}
-                <motion.div 
-                  initial="hidden" 
-                  whileInView="visible" 
-                  viewport={{ once: true }} 
-                  variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-                  }}
-                  className="text-center mb-16 lg:mb-24"
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+                    }}
+                    className="text-center mb-16 lg:mb-24"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4 text-gray-900">
                         Why Businesses Choose <br />

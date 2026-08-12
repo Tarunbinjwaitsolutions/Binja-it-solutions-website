@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";;
+import { useRouter } from "next/navigation";
+import { fetchAllBlogs } from "../../lib/api/blogs";
 import { motion } from "framer-motion";
 
 import {
@@ -23,28 +24,29 @@ import {
 
 const POSTS_PER_PAGE = 9;
 
-export default function AllBlogsPage() {
-  const [posts, setPosts] = useState([]);
+export default function AllBlogsPage({ initialData = null }) {
+  const [posts, setPosts] = useState(initialData ? initialData.data : []);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [totalPages, setTotalPages] = useState(initialData ? initialData.pagination.totalPages : 1);
+  const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState(null);
 
   const router = useRouter();
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    // If it's page 1 and we have initialData, skip fetch
+    if (currentPage === 1 && initialData) {
+      setPosts(initialData.data);
+      setTotalPages(initialData.pagination.totalPages || 1);
+      setLoading(false);
+      return;
+    }
+
+    const getPosts = async () => {
       setLoading(true);
       setError(null);
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-        const response = await fetch(
-          `${baseUrl}/api/blogs?page=${currentPage}&limit=${POSTS_PER_PAGE}`,
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
+        const result = await fetchAllBlogs(currentPage, POSTS_PER_PAGE);
         setPosts(result.data);
         setTotalPages(result.pagination.totalPages || 1);
       } catch (err) {
@@ -54,8 +56,8 @@ export default function AllBlogsPage() {
       }
     };
 
-    fetchPosts();
-  }, [currentPage]);
+    getPosts();
+  }, [currentPage, initialData]);
 
   const staggerContainer = {
     hidden: { opacity: 0 },

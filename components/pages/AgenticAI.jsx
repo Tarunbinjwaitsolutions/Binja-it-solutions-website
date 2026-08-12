@@ -1,23 +1,23 @@
 import React from "react";
 
-import HeroSection from "../Agentic AI/HeroSection";
-// import TrustedBySection from "../Agentic AI/TrustedBySection";
-import WhatIsAgenticAISection from "../Agentic AI/WhatIsAgenticAISection";
-// import AICapabilitiesSection from "../Agentic AI/AICapabilitiesSection";
-import OurServicesSection from "../Agentic AI/OurServicesSection";
-// import BusinessBenefitsSection from "../Agentic AI/BusinessBenefitsSection";
-// import AIWorkflowTimelineSection from "../Agentic AI/AIWorkflowTimelineSection";
-import HowWeBuildSection from "../Agentic AI/HowWeBuildSection";
-// import AITechStackSection from "../Agentic AI/AITechStackSection";
-import IntegrationsSection from "../Agentic AI/IntegrationsSection";
-import IndustriesWeServeSection from "../Agentic AI/IndustriesWeServeSection";
-// import CaseStudiesSection from "../Agentic AI/CaseStudiesSection";
-import BeforeVsAfterSection from "../Agentic AI/BeforeVsAfterSection";
-// import StatisticsSection from "../Agentic AI/StatisticsSection";
-import WhyChooseUsSection from "../Agentic AI/WhyChooseUsSection";
-import TestimonialsSection from "../Agentic AI/TestimonialsSection";
-import FAQSection from "../Agentic AI/FAQSection";
-import FinalCTASection from "../Agentic AI/FinalCTASection";
+import HeroSection from "../AgenticAI/HeroSection";
+// import TrustedBySection from "../AgenticAI/TrustedBySection";
+import WhatIsAgenticAISection from "../AgenticAI/WhatIsAgenticAISection";
+// import AICapabilitiesSection from "../AgenticAI/AICapabilitiesSection";
+import OurServicesSection from "../AgenticAI/OurServicesSection";
+// import BusinessBenefitsSection from "../AgenticAI/BusinessBenefitsSection";
+// import AIWorkflowTimelineSection from "../AgenticAI/AIWorkflowTimelineSection";
+import HowWeBuildSection from "../AgenticAI/HowWeBuildSection";
+// import AITechStackSection from "../AgenticAI/AITechStackSection";
+import IntegrationsSection from "../AgenticAI/IntegrationsSection";
+import IndustriesWeServeSection from "../AgenticAI/IndustriesWeServeSection";
+// import CaseStudiesSection from "../AgenticAI/CaseStudiesSection";
+import BeforeVsAfterSection from "../AgenticAI/BeforeVsAfterSection";
+// import StatisticsSection from "../AgenticAI/StatisticsSection";
+import WhyChooseUsSection from "../AgenticAI/WhyChooseUsSection";
+import TestimonialsSection from "../AgenticAI/TestimonialsSection";
+import FAQSection from "../AgenticAI/FAQSection";
+import FinalCTASection from "../AgenticAI/FinalCTASection";
 
 export default function AgenticAI() {
   return (

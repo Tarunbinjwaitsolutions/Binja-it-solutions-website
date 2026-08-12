@@ -18,6 +18,7 @@ import Magnetic from '@/components/ui/Magnetic';
 // import ZigzagBackground from '@/components/ui/ZigzagBackground';
 import HeroSection from '@/components/sections/HeroSectionAI';
 import Footer from '@/components/layout/Footer';
+import { useSmoothScroll } from '@/components/providers/SmoothScrollProvider';
 
 import useInView from '@/lib/hooks/useInView';
 import Reveal from '@/components/ui/Reveal';
@@ -235,15 +236,20 @@ const LandingPage = () => {
   const [progress, setProgress] = useState(0);
 
   // Handle hash scrolling for external page navigation
+  const lenis = useSmoothScroll();
+
   useEffect(() => {
     if (window.location.hash) {
       const hash = window.location.hash.substring(1);
       setTimeout(() => {
         const el = document.getElementById(hash);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        if (el) {
+          if (lenis) lenis.scrollTo(el, { offset: -100 });
+          else el.scrollIntoView({ behavior: 'smooth' });
+        }
       }, 300);
     }
-  }, []);
+  }, [lenis]);
 
   // ─── Scroll progress bar + nav scroll detection ────────────────────────────
   useEffect(() => {
@@ -265,7 +271,10 @@ const LandingPage = () => {
   const go = (id) => {
     setMenuOpen(false);
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      if (lenis) lenis.scrollTo(el, { offset: -100 });
+      else el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (

@@ -234,7 +234,9 @@ export default function ChatbotWidget() {
                 src={chat12}
                 alt="Chat"
                 className="w-24 h-24 object-contain drop-shadow-lg"
-              width={800} height={800} />
+                width={800} height={800}
+                priority
+              />
             </motion.span>
           )}
         </AnimatePresence>

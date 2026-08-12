@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 
-import { useRouter } from "next/navigation";;
+import { useRouter } from "next/navigation";
+import { fetchJobDetails } from "../lib/api/jobs";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -18,24 +19,21 @@ import {
 import ApplyModal from "@/components/ui/ApplyModal";
 import { useParams } from "next/navigation";
 
-const JobDetailsPage = () => {
+const JobDetailsPage = ({ initialJob = null, initialError = null }) => {
   const { id } = useParams();
-  const [job, setJob] = useState(null);
-  const [error, setError] = useState(null);
+  const [job, setJob] = useState(initialJob);
+  const [error, setError] = useState(initialError);
   const [modalJobId, setModalJobId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchJobDetails = async () => {
+    // If we have initial data from server, skip fetch
+    if (initialJob || initialError) return;
+
+    const getJobDetails = async () => {
       try {
         setError(null);
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/openings/${id}`,
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch job details: ${response.statusText}`);
-        }
-        const data = await response.json();
+        const data = await fetchJobDetails(id);
         setJob(data);
       } catch (error) {
         console.error("Error fetching job details:", error);
@@ -44,9 +42,9 @@ const JobDetailsPage = () => {
     };
 
     if (id) {
-      fetchJobDetails();
+      getJobDetails();
     }
-  }, [id]);
+  }, [id, initialJob, initialError]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -76,7 +74,7 @@ const JobDetailsPage = () => {
       <div className="min-h-screen bg-transparent flex flex-col items-center justify-center pt-24" style={{ backgroundColor: "var(--bg-secondary)" }}>
         <p className="text-xl text-red-500 font-semibold mb-4">{error}</p>
         <button
-          onClick={() => router.push(-1)}
+          onClick={() => router.back()}
           className="flex items-center text-neutral-500 hover:text-orange-600 transition-colors duration-300 group"
         >
           <ArrowLeft
@@ -107,7 +105,7 @@ const JobDetailsPage = () => {
           className="mb-8"
         >
           <button
-            onClick={() => router.push(-1)}
+            onClick={() => router.back()}
             className="flex items-center text-neutral-500 hover:text-orange-600 transition-colors duration-300 group"
           >
             <ArrowLeft

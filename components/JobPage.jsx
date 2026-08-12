@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 import { motion } from "framer-motion";
+import { fetchJobs } from "../lib/api/jobs";
 import Link from "next/link";;
 import {
   Search,
@@ -12,37 +13,77 @@ import {
   ChevronDown,
   Clock,
   ArrowRight,
+  PenTool,
+  Users,
+  TrendingUp,
+  BrainCircuit,
+  Code,
+  Palette,
+  Megaphone,
+  Wallet,
+  BarChart,
+  ClipboardList,
+  Cloud,
+  ShieldCheck,
 } from "lucide-react";
 
-const JobPage = () => {
+const getJobIconAndColor = (job) => {
+  const title = (job.category || job.title || "").toLowerCase();
+  
+  if (title.includes("content") || title.includes("writ")) {
+    return { Icon: PenTool, color: "text-orange-500", bg: "bg-orange-500/10" };
+  }
+  if (title.includes("hr") || title.includes("human resource")) {
+    return { Icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" };
+  }
+  if (title.includes("sales") || title.includes("business development") || title.includes("bde")) {
+    return { Icon: TrendingUp, color: "text-green-500", bg: "bg-green-500/10" };
+  }
+  if (title.includes("ai") || title.includes("ml") || title.includes("artificial intelligence") || title.includes("machine learning")) {
+    return { Icon: BrainCircuit, color: "text-purple-500", bg: "bg-purple-500/10" };
+  }
+  if (title.includes("developer") || title.includes("software") || title.includes("frontend") || title.includes("backend") || title.includes("full stack") || title.includes("engineer")) {
+    return { Icon: Code, color: "text-blue-400", bg: "bg-blue-400/10" };
+  }
+  if (title.includes("ui") || title.includes("ux") || title.includes("design")) {
+    return { Icon: Palette, color: "text-pink-500", bg: "bg-pink-500/10" };
+  }
+  if (title.includes("marketing")) {
+    return { Icon: Megaphone, color: "text-amber-500", bg: "bg-amber-500/10" };
+  }
+  if (title.includes("finance") || title.includes("account")) {
+    return { Icon: Wallet, color: "text-emerald-500", bg: "bg-emerald-500/10" };
+  }
+  if (title.includes("data analyst") || title.includes("data science")) {
+    return { Icon: BarChart, color: "text-indigo-500", bg: "bg-indigo-500/10" };
+  }
+  if (title.includes("manager") || title.includes("management")) {
+    return { Icon: ClipboardList, color: "text-rose-500", bg: "bg-rose-500/10" };
+  }
+  if (title.includes("devops") || title.includes("cloud") || title.includes("infrastructure")) {
+    return { Icon: Cloud, color: "text-sky-500", bg: "bg-sky-500/10" };
+  }
+  if (title.includes("qa") || title.includes("test")) {
+    return { Icon: ShieldCheck, color: "text-teal-500", bg: "bg-teal-500/10" };
+  }
+  
+  return { Icon: Briefcase, color: "text-gray-500", bg: "bg-gray-500/10" };
+};
+
+const JobPage = ({ initialJobs = [] }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [jobs, setJobs] = useState(initialJobs);
+  const [filteredJobs, setFilteredJobs] = useState(initialJobs);
   const [jobType, setJobType] = useState("Jobs");
   const [sortOrder, setSortOrder] = useState("Newest");
-  const [availableJobTypes, setAvailableJobTypes] = useState([]);
+  
+  // Initialize job types from initialJobs
+  const initialTypes = Array.isArray(initialJobs) 
+    ? [...new Set(initialJobs.map((job) => job.type))]
+    : [];
+  const [availableJobTypes, setAvailableJobTypes] = useState(initialTypes);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "/hrms-proxy";
-        const fetchUrl = `${baseUrl}/api/openings`;
-        const response = await fetch(fetchUrl);
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setJobs(data);
-          const types = [...new Set(data.map((job) => job.type))];
-          setAvailableJobTypes(types);
-        } else {
-          console.warn("Backend API returned non-array:", data);
-        }
-      } catch (error) {
-        console.warn("Backend API unreachable. Error fetching jobs:", error.message);
-      }
-    };
-
-    fetchJobs();
-  }, []);
+  // We can remove the fetchJobs useEffect since it's fetched server-side
 
   useEffect(() => {
     let tempJobs = Array.isArray(jobs) ? [...jobs] : [];
@@ -193,14 +234,14 @@ const JobPage = () => {
                 <div className="p-6 flex flex-col h-full">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-4">
-                      <Image
-                        src={
-                          job.logo ||
-                          "https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-                        }
-                        alt={`${job.category} logo`}
-                        className="w-12 h-12 rounded-lg object-contain"
-                      width={800} height={800} />
+                      {(() => {
+                        const { Icon, color, bg } = getJobIconAndColor(job);
+                        return (
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${bg}`}>
+                            <Icon className={`w-6 h-6 ${color}`} strokeWidth={1.5} />
+                          </div>
+                        );
+                      })()}
                       <div>
                         <h2 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>
                           {job.title}

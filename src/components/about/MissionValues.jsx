@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const img1 = '/assets/img1.jpg';;
+const img1 = '/assets/images/about/BIS5.jpg';
 
 const missionData = {
   mission: {

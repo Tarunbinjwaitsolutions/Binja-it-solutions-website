@@ -323,7 +323,7 @@ export default function IndustryClientContent({ industry }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -50px 0px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group"
+              className="flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(30,27,75,0.4)] group hover:bg-gradient-to-br hover:from-[#1e1b4b] hover:to-purple-900 hover:border-transparent"
               style={{
                 backgroundColor: 'var(--bg-card)',
                 borderColor: 'var(--border)',
@@ -340,18 +340,18 @@ export default function IndustryClientContent({ industry }) {
                     sizes="(max-width: 768px) 100vw, 33vw"
                     loading="lazy"
                   />
-                  <div className="absolute bottom-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm text-orange-500 flex items-center justify-center shadow-lg">
+                  <div className="absolute bottom-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm text-[var(--accent)] group-hover:text-[#1e1b4b] flex items-center justify-center shadow-lg transition-colors duration-300">
                     {getIcon(feature.icon, "w-5 h-5")}
                   </div>
                 </div>
-                <div className="p-8 flex-grow flex flex-col">
-                  <h3 className="text-xl font-bold theme-text mb-3 group-hover:text-orange-500 transition-colors">
+                <div className="p-8 flex-grow flex flex-col relative z-10">
+                  <h3 className="text-xl font-bold theme-text mb-3 group-hover:text-white transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm flex-grow">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm flex-grow group-hover:text-white/90 transition-colors duration-300">
                     {feature.description}
                   </p>
-                  <span className="inline-flex items-center text-sm font-medium text-orange-500 mt-4">
+                  <span className="inline-flex items-center text-sm font-medium text-orange-500 mt-4 group-hover:text-white transition-colors duration-300">
                     Explore Solutions <ArrowLeft className="w-4 h-4 ml-1 rotate-180 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
@@ -401,7 +401,7 @@ export default function IndustryClientContent({ industry }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "0px 0px -50px 0px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group"
+                className="flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(30,27,75,0.4)] group hover:bg-gradient-to-br hover:from-[#1e1b4b] hover:to-purple-900 hover:border-transparent"
                 style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border)' }}
               >
                 <Link href={resource.link} className="block flex-1 flex flex-col focus:outline-none">
@@ -414,15 +414,15 @@ export default function IndustryClientContent({ industry }) {
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
-                  <div className="p-8 flex-grow flex flex-col">
-                    <h3 className="text-xl font-bold theme-text mb-3 group-hover:text-orange-500 transition-colors">
+                  <div className="p-8 flex-grow flex flex-col relative z-10">
+                    <h3 className="text-xl font-bold theme-text mb-3 group-hover:text-white transition-colors duration-300">
                       {resource.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 flex-grow">
+                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 flex-grow group-hover:text-white/90 transition-colors duration-300">
                       {resource.description}
                     </p>
-                    <span className="inline-flex items-center text-sm font-medium text-orange-500 mt-auto">
-                      Read more <ArrowLeft className="w-4 h-4 ml-1 rotate-180" />
+                    <span className="inline-flex items-center text-sm font-medium text-orange-500 mt-auto group-hover:text-white transition-colors duration-300">
+                      Read more <ArrowLeft className="w-4 h-4 ml-1 rotate-180 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
                 </Link>

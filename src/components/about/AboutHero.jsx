@@ -3,9 +3,9 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-const office = '/assets/office.jpeg';;
-const img2 = '/assets/img2.jpg';;
-const img3 = '/assets/img3.jpg';;
+const office = '/assets/images/about/BIS3.jpg';
+const img2 = '/assets/images/about/BIS4.jpg';
+const img3 = '/assets/images/about/BIS2.jpg';
 
 const aboutHeroData = {
   headline: "Empowering Brands through Innovation and Technical Precision",

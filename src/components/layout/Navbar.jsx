@@ -16,19 +16,16 @@ import { industriesData } from "../../data/industries";
 const Navbar = ({ handleShowBanner, hasBanner }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState(null);
+    
+    // Single shared state for desktop dropdowns
+    const [desktopActiveDropdown, setDesktopActiveDropdown] = useState(null);
     const [mobileActiveDropdown, setMobileActiveDropdown] = useState(null);
-    const [showMegaMenu, setShowMegaMenu] = useState(false);
-    const [showIndustriesMegaMenu, setShowIndustriesMegaMenu] = useState(false);
+    
     const pathname = usePathname();
 
     const isSmmPage = pathname === "/products/smm";
     const darkHeroRoutes = ["/"];
 
-    // Accurate logic for dark hero pages:
-    // - "/" (Home)
-    // - "/industries/[slug]" (length 2)
-    // - "/services/[service]/[subservice]" (length 3)
     const pathSegments = pathname.split("/").filter(Boolean);
     const isDarkHeroPage =
         darkHeroRoutes.includes(pathname) ||
@@ -36,7 +33,6 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
         (pathSegments[0] === "services" && pathSegments.length === 3);
 
     const atTop = !scrolled;
-    // On SMM page, we want white text always. On dark hero pages, only at top.
     const useWhiteText = (isDarkHeroPage && atTop) || isSmmPage;
 
     const navLinks = [
@@ -58,32 +54,30 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
             isIndustriesMega: true,
             subLinks: industriesData.map(industry => ({ name: industry.name, href: `/industries/${industry.slug}` })),
         },
-        {
-            name: "Products", href: "/products"
-        },
+        { name: "Products", href: "/products" },
         { name: "Blogs", href: "/blogs" },
         { name: "Careers", href: "/jobs" },
-        // { name: "Contact", href: "/contact" },
     ];
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     useEffect(() => {
         if (isOpen) setIsOpen(false);
+        // Close dropdowns on route change
+        setDesktopActiveDropdown(null);
     }, [pathname]);
 
     const NavLink = ({ link }) => {
         const isActive = pathname === link.href ||
             (link.subLinks && link.subLinks.some(s => pathname === s.href || pathname.startsWith(s.href + "/")));
-        const isThisMegaMenuShowing = link.isServicesMega ? showMegaMenu : (link.isIndustriesMega ? showIndustriesMegaMenu : false);
 
         return (
             <Link href={link.href || "#"}
-                className={`relative flex items-center gap-1 text-sm font-medium transition-colors duration-200 pb-0.5
+                className={`relative flex items-center gap-1 text-sm font-medium transition-colors duration-200 h-full py-2
           hover:text-orange-500 group
           ${isActive ? "text-orange-500" : ""}
           ${!isActive && useWhiteText ? "text-white/90" : ""}
@@ -91,21 +85,15 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
         `}
             >
                 {link.name}
-                {link.subLinks && !link.isMega && <ChevronDown size={16} className={`transition-transform duration-300 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />}
-                {link.isMega && <ChevronDown size={16} className={`transition-transform duration-300 ${isThisMegaMenuShowing ? 'rotate-180' : ''}`} />}
+                {link.subLinks && !link.isMega && <ChevronDown size={16} className={`transition-transform duration-300 ${desktopActiveDropdown === link.name ? 'rotate-180' : ''}`} />}
+                {link.isMega && <ChevronDown size={16} className={`transition-transform duration-300 ${desktopActiveDropdown === link.name ? 'rotate-180' : ''}`} />}
 
                 {/* Animated active/hover underline */}
-                {isActive && (
-                    <motion.div
-                        layoutId="nav-underline"
-                        className="absolute -bottom-1 left-0 right-0 h-[2px] bg-orange-500 rounded-full"
-                        initial={false}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                )}
-                {!isActive && (
-                    <div className="absolute -bottom-1 left-0 right-0 h-[2px] bg-orange-500 rounded-full opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100 transition-all duration-300 origin-center" />
-                )}
+                <div 
+                    className={`absolute bottom-0 left-0 right-0 h-[2px] bg-orange-500 rounded-full transition-all duration-300 origin-center 
+                        ${isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100"}
+                    `} 
+                />
             </Link>
         );
     };
@@ -115,7 +103,7 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${!atTop ? "backdrop-blur-lg border-b border-white/10 shadow-[var(--nav-shadow)]" : ""}`}
+            className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${!atTop ? "backdrop-blur-lg border-b border-white/10 shadow-[var(--nav-shadow)]" : ""}`}
             style={
                 !atTop || (!isDarkHeroPage && !isSmmPage)
                     ? { backgroundColor: isSmmPage ? "rgba(17, 17, 17, 0.95)" : "rgba(245, 247, 250, 0.85)" }
@@ -123,64 +111,50 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
             }
         >
             <div className="w-screen px-4 sm:px-6 lg:px-28">
+                {/* Fixed height wrapper prevents layout shifts */}
                 <div className="flex items-center justify-between h-20">
                     {/* Logo */}
                     <Link href="/">
                         <motion.div
-                            className="flex items-center justify-center shrink-0 cursor-pointer rounded-xl transition-all"
-                            animate={{
-                                backgroundColor: useWhiteText ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0)",
-                                padding: useWhiteText ? "0.5rem 1rem" : "0.25rem 0.5rem",
-                                boxShadow: useWhiteText ? "0px 0px 15px rgba(251,146,60,0.4)" : "none",
-                                borderColor: useWhiteText ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0)",
-                                borderWidth: "1px",
-                                borderStyle: "solid"
-                            }}
-                            whileHover={{ scale: 1.05, boxShadow: useWhiteText ? "0px 0px 25px rgba(251,146,60,0.8)" : "none" }}
+                            className="relative flex items-center justify-center shrink-0 cursor-pointer transition-all"
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             transition={{ duration: 0.3 }}
                         >
-                            <Image src="/logo.png" alt="Binjwa IT Solutions" width={160} height={60} priority className="h-10 md:h-12 w-auto object-contain drop-shadow-md" />
+                            {/* Subtle background glow for dark backgrounds instead of a hard-edged box */}
+                            <div className={`absolute inset-0 rounded-full blur-xl transition-opacity duration-300 pointer-events-none ${useWhiteText ? 'bg-white/40 opacity-100' : 'opacity-0'}`}></div>
+                            <Image src="/logo.png" alt="Binjwa IT Solutions" width={160} height={60} priority className="relative z-10 h-10 md:h-12 w-auto object-contain" />
                         </motion.div>
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex flex-1 items-center justify-center space-x-8">
+                    <div className="hidden md:flex flex-1 items-center justify-center space-x-8 h-full">
                         {navLinks.map((link) => (
                             <div
                                 key={link.name}
-                                className="relative"
+                                className="relative flex items-center h-full"
+                                onMouseEnter={() => setDesktopActiveDropdown(link.name)}
+                                onMouseLeave={() => setDesktopActiveDropdown(null)}
                                 onClick={(e) => {
-                                    if (link.isServicesMega) {
+                                    if (link.isServicesMega || link.isIndustriesMega || link.subLinks) {
                                         e.preventDefault();
-                                        setShowMegaMenu(!showMegaMenu);
-                                        setShowIndustriesMegaMenu(false);
-                                        setActiveDropdown(null);
-                                    } else if (link.isIndustriesMega) {
-                                        e.preventDefault();
-                                        setShowIndustriesMegaMenu(!showIndustriesMegaMenu);
-                                        setShowMegaMenu(false);
-                                        setActiveDropdown(null);
-                                    } else if (link.subLinks) {
-                                        e.preventDefault();
-                                        setActiveDropdown(activeDropdown === link.name ? null : link.name);
-                                        setShowMegaMenu(false);
-                                        setShowIndustriesMegaMenu(false);
                                     }
                                 }}
                             >
-                                <div id={link.isServicesMega ? "nav-services-link" : (link.isIndustriesMega ? "nav-industries-link" : "")}>
+                                <div id={link.isServicesMega ? "nav-services-link" : (link.isIndustriesMega ? "nav-industries-link" : "")} className="flex items-center h-full cursor-pointer">
                                     <NavLink link={link} />
                                 </div>
+                                
+                                {/* Standard SubLinks */}
                                 {link.subLinks && !link.isMega && (
                                     <AnimatePresence>
-                                        {activeDropdown === link.name && (
+                                        {desktopActiveDropdown === link.name && (
                                             <motion.div
-                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                transition={{ duration: 0.2, ease: "easeOut" }}
-                                                className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-72 rounded-xl shadow-xl p-2 border overflow-hidden"
+                                                initial={{ opacity: 0, y: -10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -10 }}
+                                                transition={{ duration: 0.35, ease: "easeInOut" }}
+                                                className="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-72 rounded-xl shadow-xl p-2 border overflow-hidden"
                                                 style={{
                                                     backgroundColor: isSmmPage ? "rgba(26, 26, 26, 0.95)" : "var(--bg-card)",
                                                     borderColor: isSmmPage ? "#333" : "var(--border)",
@@ -191,7 +165,7 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
                                                     {link.subLinks.map((subLink) => (
                                                         <Link key={subLink.name}
                                                             href={subLink.href}
-                                                            onClick={() => setActiveDropdown(null)}
+                                                            onClick={() => setDesktopActiveDropdown(null)}
                                                             className="block w-full text-left px-4 py-3 text-sm rounded-lg transition-all duration-200"
                                                             style={{ color: isSmmPage ? "#e5e5e5" : "var(--text-secondary)" }}
                                                             onMouseEnter={e => {
@@ -210,6 +184,24 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
                                                     ))}
                                                 </div>
                                             </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                )}
+
+                                {/* Services Mega Menu Wrapped Here */}
+                                {link.isServicesMega && (
+                                    <AnimatePresence>
+                                        {desktopActiveDropdown === link.name && (
+                                            <ServicesMegaMenu onClose={() => setDesktopActiveDropdown(null)} />
+                                        )}
+                                    </AnimatePresence>
+                                )}
+
+                                {/* Industries Mega Menu Wrapped Here */}
+                                {link.isIndustriesMega && (
+                                    <AnimatePresence>
+                                        {desktopActiveDropdown === link.name && (
+                                            <IndustriesMegaMenu onClose={() => setDesktopActiveDropdown(null)} />
                                         )}
                                     </AnimatePresence>
                                 )}
@@ -256,18 +248,6 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
                 </div>
             </div>
 
-            <AnimatePresence>
-                {showMegaMenu && (
-                    <ServicesMegaMenu onClose={() => setShowMegaMenu(false)} />
-                )}
-            </AnimatePresence>
-
-            <AnimatePresence>
-                {showIndustriesMegaMenu && (
-                    <IndustriesMegaMenu onClose={() => setShowIndustriesMegaMenu(false)} />
-                )}
-            </AnimatePresence>
-
             {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && (
@@ -304,6 +284,7 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
                                                     initial={{ height: 0, opacity: 0 }}
                                                     animate={{ height: "auto", opacity: 1 }}
                                                     exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.3, ease: "easeInOut" }}
                                                     className="overflow-hidden"
                                                 >
                                                     <div className="pt-2 pb-2 pl-6 pr-4 flex flex-col space-y-1">
@@ -366,4 +347,3 @@ const Navbar = ({ handleShowBanner, hasBanner }) => {
 };
 
 export default Navbar;
-

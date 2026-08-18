@@ -8,11 +8,12 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Banner from "@/components/Compliance/Banner/Banner";
 import dynamic from 'next/dynamic';
-import ChatbotWidget from "@/components/Chatbot/ChatbotWidget";
+import { AssistantChatProvider } from "@/lib/chat/AssistantChatProvider";
 
-// Lazy load heavy widgets to unblock the main thread
+// Lazy load the bot widgets to unblock the main thread. They need the browser
+// Speech APIs and sessionStorage, so they must never render on the server.
 const VoiceBotWidget = dynamic(() => import("@/components/Chatbot/VoiceBotWidget"), { ssr: false });
-const ChatbotWidgetLazy = dynamic(() => import("@/components/Chatbot/ChatbotWidget"), { ssr: false });
+const ChatbotWidget = dynamic(() => import("@/components/Chatbot/ChatbotWidget"), { ssr: false });
 
 const bannerImages = {
   // We will dynamically import the first banner from public folder if needed,
@@ -66,15 +67,17 @@ export default function LayoutClient({ children }) {
         </main>
         <Footer />
       </div>
-      {/* Bot Widgets Container */}
-      <div className="fixed bottom-6 right-6 z-50 flex items-end gap-4 pointer-events-none">
-        <div className="pointer-events-auto flex flex-col items-end hover:-translate-y-1 transition-transform duration-300">
-          <VoiceBotWidget />
+      {/* Bot Widgets Container - separate launchers, one shared conversation */}
+      <AssistantChatProvider>
+        <div className="fixed bottom-6 right-6 z-50 flex items-end gap-4 pointer-events-none">
+          <div className="pointer-events-auto flex flex-col items-end hover:-translate-y-1 transition-transform duration-300">
+            <VoiceBotWidget />
+          </div>
+          <div className="pointer-events-auto flex flex-col items-end hover:-translate-y-1 transition-transform duration-300">
+            <ChatbotWidget />
+          </div>
         </div>
-        <div className="pointer-events-auto flex flex-col items-end hover:-translate-y-1 transition-transform duration-300">
-          <ChatbotWidgetLazy />
-        </div>
-      </div>
+      </AssistantChatProvider>
     </>
   );
 }

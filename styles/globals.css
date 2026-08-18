@@ -10,6 +10,32 @@
   scrollbar-width: none;
 }
 
+/* ─── Chat transcript scrollbar ───────────────────────────── */
+/* Slim but visible. The bot panels are only 500px tall, so hiding the
+   scrollbar entirely made earlier messages feel unreachable. */
+.chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  overscroll-behavior: contain;
+}
+
+.chat-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 3px;
+}
+
+.chat-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted);
+}
+
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    THEME TOKENS  â€” applied via data-theme attribute
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */

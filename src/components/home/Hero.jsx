@@ -9,7 +9,7 @@ const heroData = {
   headline: "Build, Automate & Grow Your Business with Smart IT Solutions",
   paragraph:
     "From AI-powered tools to modern websites and business software, we create solutions that save time, improve efficiency, and help your business scale.",
-  videoSrc: "/mainVideo.mp4",
+  videoSrc: "/Hero-Video.mp4",
 };
 
 const Hero = () => {
